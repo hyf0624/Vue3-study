@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 源数据
+      let person = {
+        name: '孙悟空',
+        age: 500
+      }
+      // let p = {}
+      // let obj = Object.defineProperty(p, 'name', {
+      //   configurable: true,
+      //   get() {
+      //     console.log('访问了name属性')
+      //     return person.name
+      //   },
+      //   set(val) {
+      //     console.log('重新设置了name属性')
+      //     person.name = val
+      //   }
+      // })
+
+      const proxy = new Proxy(person, {
+        // 拦截读取操作
+        get(target, proKey) {
+          console.log(`有人读取了proxy身上的${proKey}属性`)
+          return Reflect.get(target, proKey)
+        },
+
+        // 拦截修改和新增操作
+        set(target, proKey, val) {
+          console.log(`有人修改了proxy身上的${proKey}属性, 我要去更新界面了`)
+          return Reflect.set(target, proKey, val)
+        },
+
+        // 拦截删除操作
+        deleteProperty(target, proKey) {
+          console.log(`有人删除了proxy身上的${proKey}属性, 我要去更新界面了`)
+          return Reflect.deleteProperty(target, proKey)
+        }
+      })
+    </script>
+  </body>
+</html>
